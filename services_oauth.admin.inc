@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: services_oauth.admin.inc,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
 
 function _services_oauth_admin_authorization() {
   $form = array();

@@ -1,4 +1,4 @@
-; $Id$
+; $Id: services_oauth.info,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
 name = OAuth Authentication
 description = Provides OAuth authentication for the services module
 package = Services - authentication

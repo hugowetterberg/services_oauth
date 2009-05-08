@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: services_oauth.inc,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
 
 function _services_oauth_authenticate_call($method, $args) {
   if (!isset($method['#key']) || !$method['#key']) {

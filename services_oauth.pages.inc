@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: services_oauth.pages.inc,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
 
 /**
  * Form for granting access to the consumer
