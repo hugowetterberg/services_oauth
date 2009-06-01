@@ -1,5 +1,5 @@
 <?php
-// $Id: services_oauth.pages.inc,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
+// $Id: services_oauth.pages.inc,v 1.2 2009/06/01 09:31:24 hugowetterberg Exp $
 
 function _services_oauth_authorized() {
   return t('The application has been authorized');
