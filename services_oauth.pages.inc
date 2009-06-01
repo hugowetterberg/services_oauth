@@ -1,6 +1,10 @@
 <?php
 // $Id: services_oauth.pages.inc,v 1.1 2009/05/08 21:12:30 hugowetterberg Exp $
 
+function _services_oauth_authorized() {
+  return t('The application has been authorized');
+}
+
 /**
  * Form for granting access to the consumer
  */
@@ -29,7 +33,7 @@ function _services_oauth_authorize() {
       header('Location: ' . drupal_substr($_SERVER['REQUEST_URI'], 1), TRUE, 302);
     }
 
-    if (!user_access('access services')) {
+    if (!user_access('services oauth authorize consumers')) {
       drupal_set_message(t('You are not authorized to allow external services access to this system.'), 'error');
       return drupal_access_denied();
     }
@@ -162,16 +166,21 @@ function _services_oauth_authorize_submit(&$form, &$form_state) {
 
   $got_permission = $got_permission || $values['full_access'];
 
-  // Pick the callback url apart and add the token parameter
-  $callback = parse_url($parameters['oauth_callback']);
-  $query = array();
-  parse_str($callback['query'], $query);
-  $query['oauth_token'] = $token->key;
-  $callback['query'] = http_build_query($query, 'idx_', '&');
+  if (isset($parameters['oauth_callback'])) {
+    // Pick the callback url apart and add the token parameter
+    $callback = parse_url($parameters['oauth_callback']);
+    $query = array();
+    parse_str($callback['query'], $query);
+    $query['oauth_token'] = $token->key;
+    $callback['query'] = http_build_query($query, 'idx_', '&');
 
-  // Return to the consumer site
-  header('Location: ' . _services_oauth_glue_url($callback), TRUE, 302);
-  exit;
+    // Return to the consumer site
+    header('Location: ' . _services_oauth_glue_url($callback), TRUE, 302);
+    exit;
+  }
+  else {
+    drupal_goto('oauth/authorized');
+  }
 }
 
 function _services_oauth_glue_url($parsed) {
@@ -201,6 +210,7 @@ function _services_oauth_request_token() {
     print $server->fetch_request_token($req);
   }
   catch (OAuthException $e) {
+    var_dump($e); die;
     drupal_set_header('HTTP/1.0 401 Unauthorized: ' . $e->getMessage());
     drupal_set_header(sprintf('WWW-Authenticate: OAuth realm="%s"', url('', array('absolute'=>TRUE))));
   }
@@ -277,7 +287,7 @@ function _services_oauth_user_applications($form_state, $account) {
     $form['applications'] = $apps;
   }
 
-  if (user_access('access services', $account)) {
+  if (user_access('services oauth authorize consumers', $account)) {
     $auth = array(
       '#type' => 'fieldset',
       '#title' => t('Authorizations'),
