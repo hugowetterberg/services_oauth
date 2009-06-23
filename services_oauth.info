@@ -5,3 +5,9 @@ package = Services - authentication
 dependencies[] = services
 dependencies[] = oauth_common
 core = 6.x
+; Information added by drupal.org packaging script on 2009-06-23
+version = "6.x-1.0-beta4"
+core = "6.x"
+project = "services_oauth"
+datestamp = "1245740795"
+
