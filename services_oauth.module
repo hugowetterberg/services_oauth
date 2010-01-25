@@ -1,5 +1,5 @@
 <?php
-// $Id: services_oauth.module,v 1.4 2009/06/23 06:46:44 hugowetterberg Exp $
+// $Id: services_oauth.module,v 1.5 2010/01/25 20:01:41 hugowetterberg Exp $
 
 /**
  * Implementation of hook_services_authentication().
