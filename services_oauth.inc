@@ -1,5 +1,5 @@
 <?php
-// $Id: services_oauth.inc,v 1.3 2009/06/23 06:46:44 hugowetterberg Exp $
+// $Id: services_oauth.inc,v 1.4 2010/01/25 19:16:02 hugowetterberg Exp $
 
 /**
  * Authenticates a call using OAuth to verify the request.

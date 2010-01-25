@@ -1,5 +1,5 @@
 <?php
-// $Id: services_oauth.admin.inc,v 1.4 2009/06/23 06:46:44 hugowetterberg Exp $
+// $Id: services_oauth.admin.inc,v 1.5 2010/01/25 19:16:02 hugowetterberg Exp $
 
 /**
  * Menu system callback that generates a form for the authentication and
