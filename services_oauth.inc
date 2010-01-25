@@ -12,7 +12,7 @@
  *  Returns nothing, or a error message if authentication fails
  */
 function _services_oauth_authenticate_call($method, $args) {
-  if (!isset($method['#key']) || !$method['#key']) {
+  if (!isset($method['key']) || !$method['key']) {
     return FALSE;
   }
 
@@ -21,7 +21,7 @@ function _services_oauth_authenticate_call($method, $args) {
 
     list($signed, $consumer, $token) = oauth_common_verify_request();
 
-    if (!$signed && $method['#verify_key']) {
+    if (!$signed && $method['verify_key']) {
       throw new OAuthException('The request must be signed');
     }
 
@@ -30,7 +30,7 @@ function _services_oauth_authenticate_call($method, $args) {
     }
 
     // Validate the token, if it's required by the method
-    if ($method['#auth']) {
+    if ($method['auth']) {
       if (empty($token->key)) {
         throw new OAuthException('Missing access token');
       }
@@ -40,7 +40,7 @@ function _services_oauth_authenticate_call($method, $args) {
       }
 
       // Check that the consumer has been granted the required authorization level
-      if (!in_array('*', $token->services) && !in_array($method['#authorization level'], $token->services)) {
+      if (!in_array('*', $token->services) && !in_array($method['authorization level'], $token->services)) {
         throw new OAuthException('The consumer is not authorized to access this service');
       }
     }
@@ -81,57 +81,57 @@ function _services_oauth_alter_methods(&$methods) {
   foreach ($methods as $key => &$method) {
     // Old-style methods only have a numeric index, take the method
     // name as key instead.
-    if (is_numeric($key) && isset($method['#method'])) {
-      $key = $method['#method'];
+    if (is_numeric($key) && isset($method['method'])) {
+      $key = $method['method'];
     }
 
-    if (!isset($method[$key]['#auth'])) {
-      $method['#auth'] = TRUE;
+    if (!isset($method[$key]['auth'])) {
+      $method['auth'] = TRUE;
     }
 
-    if (!isset($method[$key]['#key'])) {
-      $method['#key'] = TRUE;
+    if (!isset($method[$key]['key'])) {
+      $method['key'] = TRUE;
     }
 
-    if (!isset($method['#verify_key'])) {
-      $method['#verify_key'] = TRUE;
+    if (!isset($method['verify_key'])) {
+      $method['verify_key'] = TRUE;
     }
 
     // Apply custom authorization level settings
     if (isset($authorization[$key])) {
       if (isset($autho_levels[$authorization[$key]])) {
-        $method['#authorization level'] = $authorization[$key];
+        $method['authorization level'] = $authorization[$key];
       }
       else {
-        $method['#authorization level'] = '*';
+        $method['authorization level'] = '*';
       }
     }
-    if (!isset($method['#authorization level'])) {
-      $method['#authorization level'] = '*';
+    if (!isset($method['authorization level'])) {
+      $method['authorization level'] = '*';
     }
 
     // Check if we got custom settings for the method's authentication
     if (isset($auth[$key])) {
       switch ($auth[$key]) {
         case 'none':
-          $method['#verify_key'] = FALSE;
-          $method['#key'] = FALSE;
-          $method['#auth'] = FALSE;
+          $method['verify_key'] = FALSE;
+          $method['key'] = FALSE;
+          $method['auth'] = FALSE;
         break;
         case 'unsigned_consumer':
-          $method['#verify_key'] = FALSE;
-          $method['#key'] = TRUE;
-          $method['#auth'] = FALSE;
+          $method['verify_key'] = FALSE;
+          $method['key'] = TRUE;
+          $method['auth'] = FALSE;
         break;
         case 'consumer':
-          $method['#verify_key'] = TRUE;
-          $method['#key'] = TRUE;
-          $method['#auth'] = FALSE;
+          $method['verify_key'] = TRUE;
+          $method['key'] = TRUE;
+          $method['auth'] = FALSE;
         break;
         case 'token':
-          $method['#verify_key'] = TRUE;
-          $method['#key'] = TRUE;
-          $method['#auth'] = TRUE;
+          $method['verify_key'] = TRUE;
+          $method['key'] = TRUE;
+          $method['auth'] = TRUE;
         break;
       }
     }

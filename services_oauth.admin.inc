@@ -59,10 +59,10 @@ function _services_oauth_admin_authentication() {
   // Display methods
   $methods = services_get_all(FALSE);
   foreach ($methods as $method) {
-    $path = str_replace('.', '_', $method['#method']);
+    $path = str_replace('.', '_', $method['method']);
     $m = array(
       '#type' => 'fieldset',
-      '#title' => $method['#method'],
+      '#title' => $method['method'],
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
       '#tree' => TRUE,
@@ -95,7 +95,7 @@ function _services_oauth_admin_authentication() {
  * @return void
  */
 function _services_oauth_admin_authentication_options(&$element, $controller, $auth_levels) {
-  $cred = $controller['#auth'] ? 'token' : ($controller['#key'] ? ($controller['#verify_key'] ? 'consumer' : 'unsigned_consumer') : 'none');
+  $cred = $controller['auth'] ? 'token' : ($controller['key'] ? ($controller['verify_key'] ? 'consumer' : 'unsigned_consumer') : 'none');
   $element['credentials'] = array(
     '#type' => 'radios',
     '#title' => t('Required authentication'),
@@ -113,7 +113,7 @@ function _services_oauth_admin_authentication_options(&$element, $controller, $a
     '#type' => 'radios',
     '#title' => t('Required authorization'),
     '#options' => $auth_levels,
-    '#default_value' => $controller['#authorization level'],
+    '#default_value' => $controller['authorization level'],
   );
 }
 
@@ -136,9 +136,9 @@ function _services_oauth_admin_authentication_submit($form, $form_state) {
   // Process all methods
   $methods = services_get_all(FALSE);
   foreach ($methods as $method) {
-    $path = str_replace('.', '_', $method['#method']);
-    $authentication[$method['#method']] = $values[$path]['credentials'];
-    $authorization[$method['#method']] = $values[$path]['authorization'];
+    $path = str_replace('.', '_', $method['method']);
+    $authentication[$method['method']] = $values[$path]['credentials'];
+    $authorization[$method['method']] = $values[$path]['authorization'];
   }
 
   variable_set('services_oauth_authentication_levels', $authentication);
